@@ -19,4 +19,8 @@
     </COMReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryEnergizingPowerLine\LibraryEnergizingPowerLine.csproj" />
+  </ItemGroup>
+
 </Project>

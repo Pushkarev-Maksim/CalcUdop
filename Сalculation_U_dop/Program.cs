@@ -96,6 +96,8 @@ namespace ConsoleApp2
 
             EnergizingPowerLine.Commutation(rastr, listLine, 551, 0, 1);
 
+            EnergizingPowerLine.Commutation(rastr, listLine, 551, 0, 0);
+
             rastr.rgm("");
 
             string patch_ =

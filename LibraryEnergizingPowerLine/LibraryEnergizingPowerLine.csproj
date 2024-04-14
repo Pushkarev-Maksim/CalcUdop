@@ -18,8 +18,4 @@
     </COMReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Сalculation_U_dop\Сalculation_U_dop.csproj" />
-  </ItemGroup>
-
 </Project>
