@@ -94,7 +94,7 @@ namespace LibraryEnergizingPowerLine
                 }
             }
 
-            var setSelNode = "ip=" + ip + "|" + "ip=" + iq;
+            var setSelNode = "ip=" + ip + "&" + "iq=" + iq;
             vetv.SetSel(setSelNode);
             var indexVetv = vetv.FindNextSel(-1);
 

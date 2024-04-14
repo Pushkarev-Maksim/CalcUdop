@@ -97,13 +97,13 @@ namespace ConsoleApp2
             
             rastr.rgm("");
             
-            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 551));
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 1106));
             
-            EnergizingPowerLine.Commutation(rastr, listLine, 551, 0, 1);
+            EnergizingPowerLine.Commutation(rastr, listLine, 1106, 0);
 
             rastr.rgm("");
 
-            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 551));
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 1106));
 
             string patch_ =
                 @"C:\Users\maks_\Desktop\УЧЁБА\диплом\2024\СМЗУ\05022024_12_02_36\regim_1";
