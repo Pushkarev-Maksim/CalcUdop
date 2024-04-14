@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Сalculation_U_dop", "Сalculation_U_dop\Сalculation_U_dop.csproj", "{3CA6740C-2DB8-4055-BDF5-671AD4D42584}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryEnergizingPowerLine", "LibraryEnergizingPowerLine\LibraryEnergizingPowerLine.csproj", "{E3264ED1-1A65-4CDC-BA01-75DC010DB138}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3CA6740C-2DB8-4055-BDF5-671AD4D42584}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CA6740C-2DB8-4055-BDF5-671AD4D42584}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CA6740C-2DB8-4055-BDF5-671AD4D42584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3264ED1-1A65-4CDC-BA01-75DC010DB138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3264ED1-1A65-4CDC-BA01-75DC010DB138}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3264ED1-1A65-4CDC-BA01-75DC010DB138}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3264ED1-1A65-4CDC-BA01-75DC010DB138}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
