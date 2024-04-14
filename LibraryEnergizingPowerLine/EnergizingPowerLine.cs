@@ -70,7 +70,7 @@ namespace LibraryEnergizingPowerLine
         }
 
         /// <summary>
-        /// Метод для вклюяения или отключения ЛЭП с двух сторон.
+        /// Метод для включения или отключения ЛЭП с двух сторон.
         /// </summary>
         /// <param name="rastr">Экземпляр Rastr.</param>
         /// <param name="listLine">Лист ЛЭП.</param>
@@ -117,6 +117,47 @@ namespace LibraryEnergizingPowerLine
                 }
                 indexVetv = vetv.FindNextSel(indexVetv);
             }
+        }
+
+        /// <summary>
+        /// Метод для получения напряжения в узле начала и конца ЛЭП.
+        /// </summary>
+        /// <param name="rastr">Экземпляр Rastr.</param>
+        /// <param name="listLine">Лист ЛЭП.</param>
+        /// <param name="numberLine">Номер линии.</param>
+        /// <returns>Строка со значениями напряжений в узле начала и конца ЛЭП.</returns>
+        public static string GetVoltageNode(Rastr rastr, List<Line> listLine, int numberLine)
+        {
+            var tables = rastr.Tables;
+            var node = tables.Item("node");
+            var vras = node.Cols.Item("vras");
+
+            int ip = 0; int iq = 0;
+
+            for (int i = 0; i < listLine.Count; i++)
+            {
+                if (listLine[i].Number == numberLine)
+                {
+                    ip = listLine[i].Ip;
+                    iq = listLine[i].Iq;
+                }
+            }
+
+            var setSelNodeBegin = "ny=" + ip;
+            node.SetSel(setSelNodeBegin);
+            var nodeNumberBegin = node.FindNextSel(-1);
+            var UBegin = vras.Z[nodeNumberBegin];
+            var UBeginRounded = Math.Round(UBegin, 3);
+
+            var setSelNodeEnd = "ny=" + iq;
+            node.SetSel(setSelNodeEnd);
+            var nodeNumberEnd = node.FindNextSel(-1);
+            var UEnd = vras.Z[nodeNumberEnd];
+            var UEndRounded = Math.Round(UEnd, 3);
+
+            return $"ЛЭП №{numberLine}:\n" +
+                $"Напряжение в узле начала ({ip}) - {UBeginRounded} кВ\n" +
+                $"Напряжение в узле конца ({iq}) - {UEndRounded} кВ\n";
         }
     }
 }

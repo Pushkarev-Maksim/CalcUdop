@@ -62,5 +62,14 @@ namespace LibraryEnergizingPowerLine
             get { return _voltage; }
             set { _voltage = value; }
         }
+
+        /// <summary>
+        /// Получение информации о напряжении в узле.
+        /// </summary>
+        /// <returns>Строка с данными полей объекта класса Node.</returns>
+        public string GetInfo()
+        {
+            return $"Узел: {Number}, Имя: {Name}, Напряжение: {Voltage}\n";
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ASTRALib;
 using LibraryEnergizingPowerLine;
+using System.Collections.Generic;
 
 namespace ConsoleApp2
 {
@@ -93,12 +94,16 @@ namespace ConsoleApp2
                 new VoltageLowerLimit(6000, "Усть – Илимская ГЭС", 500, 525),
                 new VoltageLowerLimit(133, "ПС 500 кВ Иркутская", 494, 525)
             };
-
+            
+            rastr.rgm("");
+            
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 551));
+            
             EnergizingPowerLine.Commutation(rastr, listLine, 551, 0, 1);
 
-            EnergizingPowerLine.Commutation(rastr, listLine, 551, 0, 0);
-
             rastr.rgm("");
+
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 551));
 
             string patch_ =
                 @"C:\Users\maks_\Desktop\УЧЁБА\диплом\2024\СМЗУ\05022024_12_02_36\regim_1";
