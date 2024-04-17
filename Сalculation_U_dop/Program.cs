@@ -6,21 +6,25 @@ namespace ConsoleApp2
 {
     internal class Program
     {
-        Rastr rastr = new Rastr();
-
         static void Main(string[] args)
         {
-            Rastr rastr = new Rastr();
+            // Создаем экземпляр Rastr.
+            IRastr rastr = new Rastr();
+            // Путь до файла.
             string patch =
                 @"C:\Users\maks_\Desktop\УЧЁБА\диплом\2024\СМЗУ\05022024_12_02_36\mdp_debug_1";
+            // Загружаем файл с режимом.
             rastr.Load(RG_KOD.RG_REPL, patch, "");
-
-            var tables = rastr.Tables;
-            var node = tables.Item("node");
-            var vetv = tables.Item("vetv");
-            var tip = vetv.Cols.Item("tip");
-            var sta = vetv.Cols.Item("sta");
-            var vras = node.Cols.Item("vras");
+            // Обращение к таблице ветви.
+            ITable tableVetv = (ITable)rastr.Tables.Item("vetv");
+            // Обращение к таблице узлы.
+            ITable tableNode = (ITable)rastr.Tables.Item("node");
+            // Обращение к колонке Тип ветви.
+            ICol tipVetv = (ICol)tableVetv.Cols.Item("tip");
+            // Обращение к колонке Состояние ветви.
+            ICol staVetv = (ICol)tableVetv.Cols.Item("sta");
+            // Обращение к колонке Напряжение в узле.
+            ICol vrasNode = (ICol)tableNode.Cols.Item("vras");
 
             // Лист ЛЭП, для которых необходимо посчитать допустимое напряжение
             // перед постановкой ЛЭП под напряжения.
@@ -99,14 +103,14 @@ namespace ConsoleApp2
             
             Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 1106));
             
-            EnergizingPowerLine.Commutation(rastr, listLine, 1106, 0);
+            EnergizingPowerLine.Commutation(rastr, listLine, 1106, 0, 0);
 
             rastr.rgm("");
 
             Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 1106));
 
             string patch_ =
-                @"C:\Users\maks_\Desktop\УЧЁБА\диплом\2024\СМЗУ\05022024_12_02_36\regim_1";
+                @"C:\Users\maks_\Desktop\УЧЁБА\диплом\2024\СМЗУ\05022024_12_02_36\regim";
             rastr.Save(patch_, "");
         }
     }

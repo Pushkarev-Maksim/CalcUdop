@@ -5,8 +5,6 @@ namespace LibraryEnergizingPowerLine
 {
     public class EnergizingPowerLine
     {
-        Rastr rastr = new Rastr();
-
         /// <summary>
         /// Метод для одностороннего включения или отключения ЛЭП.
         /// </summary>
@@ -15,13 +13,17 @@ namespace LibraryEnergizingPowerLine
         /// <param name="numberLine">Номер линии.</param>
         /// <param name="_sta">Состояние ВКЛ/ВЫКЛ.</param>
         /// <param name="ip_iq">Начало или конец линии 0/1.</param>
-        public static void Commutation(Rastr rastr, List<Line> listLine,
+        public static void Commutation(IRastr rastr, List<Line> listLine,
             int numberLine, int _sta, int ip_iq)
         {
-            var tables = rastr.Tables;
-            var vetv = tables.Item("vetv");
-            var tip = vetv.Cols.Item("tip");
-            var sta = vetv.Cols.Item("sta");
+            // Обращение к таблице ветви.
+            ITable tableVetv = (ITable)rastr.Tables.Item("vetv");
+            // Обращение к таблице Реакторы.
+            ITable tableReactor = (ITable)rastr.Tables.Item("Reactors");
+            // Обращение к колонке Тип ветви.
+            ICol tipVetv = (ICol)tableVetv.Cols.Item("tip");
+            // Обращение к колонке Состояние ветви.
+            ICol staVetv = (ICol)tableVetv.Cols.Item("sta");
 
             int numberNode = 0;
             for (int i = 0; i < listLine.Count; i++)
@@ -42,30 +44,38 @@ namespace LibraryEnergizingPowerLine
             }
 
             var setSelNode = "ip=" + numberNode + "|" + "iq=" + numberNode;
-            vetv.SetSel(setSelNode);
-            var indexVetv = vetv.FindNextSel(-1);
+            tableVetv.SetSel(setSelNode);
+            var indexVetv = tableVetv.FindNextSel[-1];
+
+            //ICol n_Con = (ICol)tableVetv.Cols.Item("iq");
+            //ICol n_Nach = (ICol)tableVetv.Cols.Item("ip");
+            //int con = (int)n_Con.get_ZN(indexVetv);
+            //int nach = (int)n_Nach.get_ZN(indexVetv);
+            //var setSelReactor = "id1=" + con + "|" + "id1=" + nach;
+            //tableReactor.SetSel(setSelReactor);
+            //var indexReactor = tableReactor.FindNextSel[-1];
 
             while (indexVetv >= 0)
             {
-                if (tip.Z[indexVetv] == 2)
+                if ((int)tipVetv.Z[indexVetv] == 2/* && indexReactor == -1*/)
                 {
                     switch (_sta)
                     {
                         // Выкл ветвь
                         case 0:
                             {
-                                sta.Z[indexVetv] = 1;
+                                staVetv.Z[indexVetv] = 1;
                             }
                             break;
                         // Вкл ветвь
                         case 1:
                             {
-                                sta.Z[indexVetv] = 0;
+                                staVetv.Z[indexVetv] = 0;
                             }
                             break;
                     }
                 }
-                indexVetv = vetv.FindNextSel(indexVetv);
+                indexVetv = tableVetv.FindNextSel[indexVetv];
             }
         }
 
@@ -76,12 +86,13 @@ namespace LibraryEnergizingPowerLine
         /// <param name="listLine">Лист ЛЭП.</param>
         /// <param name="numberLine">Номер линии.</param>
         /// <param name="_sta">Состояние ВКЛ/ВЫКЛ.</param>
-        public static void Commutation(Rastr rastr, List<Line> listLine,
+        public static void Commutation(IRastr rastr, List<Line> listLine,
             int numberLine, int _sta)
         {
-            var tables = rastr.Tables;
-            var vetv = tables.Item("vetv");
-            var sta = vetv.Cols.Item("sta");
+            // Обращение к таблице ветви.
+            ITable tableVetv = (ITable)rastr.Tables.Item("vetv");
+            // Обращение к колонке Состояние ветви.
+            ICol staVetv = (ICol)tableVetv.Cols.Item("sta");
 
             int ip = 0; int iq = 0;
 
@@ -95,8 +106,8 @@ namespace LibraryEnergizingPowerLine
             }
 
             var setSelNode = "ip=" + ip + "&" + "iq=" + iq;
-            vetv.SetSel(setSelNode);
-            var indexVetv = vetv.FindNextSel(-1);
+            tableVetv.SetSel(setSelNode);
+            var indexVetv = tableVetv.FindNextSel[-1];
 
             while (indexVetv >= 0)
             {
@@ -105,17 +116,17 @@ namespace LibraryEnergizingPowerLine
                     // Выкл ветвь
                     case 0:
                         {
-                            sta.Z[indexVetv] = 1;
+                            staVetv.Z[indexVetv] = 1;
                         }
                         break;
                     // Вкл ветвь
                     case 1:
                         {
-                            sta.Z[indexVetv] = 0;
+                            staVetv.Z[indexVetv] = 0;
                         }
                         break;
                 }
-                indexVetv = vetv.FindNextSel(indexVetv);
+                indexVetv = tableVetv.FindNextSel[indexVetv];
             }
         }
 
@@ -126,11 +137,12 @@ namespace LibraryEnergizingPowerLine
         /// <param name="listLine">Лист ЛЭП.</param>
         /// <param name="numberLine">Номер линии.</param>
         /// <returns>Строка со значениями напряжений в узле начала и конца ЛЭП.</returns>
-        public static string GetVoltageNode(Rastr rastr, List<Line> listLine, int numberLine)
+        public static string GetVoltageNode(IRastr rastr, List<Line> listLine, int numberLine)
         {
-            var tables = rastr.Tables;
-            var node = tables.Item("node");
-            var vras = node.Cols.Item("vras");
+            // Обращение к таблице узлы.
+            ITable tableNode = (ITable)rastr.Tables.Item("node");
+            // Обращение к колонке Напряжение в узле.
+            ICol vrasNode = (ICol)tableNode.Cols.Item("vras");
 
             int ip = 0; int iq = 0;
 
@@ -144,20 +156,18 @@ namespace LibraryEnergizingPowerLine
             }
 
             var setSelNodeBegin = "ny=" + ip;
-            node.SetSel(setSelNodeBegin);
-            var nodeNumberBegin = node.FindNextSel(-1);
-            var UBegin = vras.Z[nodeNumberBegin];
-            var UBeginRounded = Math.Round(UBegin, 3);
+            tableNode.SetSel(setSelNodeBegin);
+            var nodeNumberBegin = tableNode.FindNextSel[-1];
+            var UBegin = vrasNode.Z[nodeNumberBegin];
 
             var setSelNodeEnd = "ny=" + iq;
-            node.SetSel(setSelNodeEnd);
-            var nodeNumberEnd = node.FindNextSel(-1);
-            var UEnd = vras.Z[nodeNumberEnd];
-            var UEndRounded = Math.Round(UEnd, 3);
+            tableNode.SetSel(setSelNodeEnd);
+            var nodeNumberEnd = tableNode.FindNextSel[-1];
+            var UEnd = vrasNode.Z[nodeNumberEnd];
 
             return $"ЛЭП №{numberLine}:\n" +
-                $"Напряжение в узле начала ({ip}) - {UBeginRounded} кВ\n" +
-                $"Напряжение в узле конца ({iq}) - {UEndRounded} кВ\n";
+                $"Напряжение в узле начала ({ip}) - {UBegin} кВ\n" +
+                $"Напряжение в узле конца ({iq}) - {UEnd} кВ\n";
         }
     }
 }
