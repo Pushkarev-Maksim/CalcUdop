@@ -24,7 +24,8 @@ namespace LibraryEnergizingPowerLine
             ICol tipVetv = (ICol)tableVetv.Cols.Item("tip");
             // Обращение к колонке Состояние ветви.
             ICol staVetv = (ICol)tableVetv.Cols.Item("sta");
-
+            // Перебор строк в листе listLine и определение с какой стороны ЛЭП
+            // моделировать одностороннее включение или отключение.
             int numberNode = 0;
             for (int i = 0; i < listLine.Count; i++)
             {
@@ -42,37 +43,57 @@ namespace LibraryEnergizingPowerLine
                     }
                 }
             }
-
+            
+            // Выборка в таблице ветви по узлу начала или конца.
             var setSelNode = "ip=" + numberNode + "|" + "iq=" + numberNode;
             tableVetv.SetSel(setSelNode);
             var indexVetv = tableVetv.FindNextSel[-1];
-
-            //ICol n_Con = (ICol)tableVetv.Cols.Item("iq");
-            //ICol n_Nach = (ICol)tableVetv.Cols.Item("ip");
-            //int con = (int)n_Con.get_ZN(indexVetv);
-            //int nach = (int)n_Nach.get_ZN(indexVetv);
-            //var setSelReactor = "id1=" + con + "|" + "id1=" + nach;
-            //tableReactor.SetSel(setSelReactor);
-            //var indexReactor = tableReactor.FindNextSel[-1];
+            
+            // Обращение к колонке Конца ветви.
+            ICol n_Con = (ICol)tableVetv.Cols.Item("iq");
+            // Обращение к колонке Начала ветви.
+            ICol n_Nach = (ICol)tableVetv.Cols.Item("ip");
 
             while (indexVetv >= 0)
             {
-                if ((int)tipVetv.Z[indexVetv] == 2/* && indexReactor == -1*/)
+                if ((int)tipVetv.Z[indexVetv] == 2)
                 {
-                    switch (_sta)
+                    int con = (int)n_Con.get_ZN(indexVetv);
+                    int nach = (int)n_Nach.get_ZN(indexVetv);
+
+                    int nodeReactor = -1;
+
+                    if (con != numberNode)
                     {
-                        // Выкл ветвь
-                        case 0:
+                        nodeReactor = con;
+                    }
+                    else if (nach != numberNode)
+                    {
+                        nodeReactor = nach;
+                    }
+
+                    if (nodeReactor != -1)
+                    {
+                        tableReactor.SetSel("Id1=" + nodeReactor + "|" + "Id2=" + nodeReactor);
+                        var indexReactor = tableReactor.FindNextSel[-1];
+                        if (indexReactor == -1)
+                        {
+                            switch (_sta)
                             {
-                                staVetv.Z[indexVetv] = 1;
+                                // Выкл ветвь
+                                case 0:
+                                    {
+                                        staVetv.Z[indexVetv] = 1;
+                                    }
+                                    break;
+                                // Вкл ветвь
+                                case 1:
+                                    {
+                                        staVetv.Z[indexVetv] = 0;
+                                    }
+                                    break;
                             }
-                            break;
-                        // Вкл ветвь
-                        case 1:
-                            {
-                                staVetv.Z[indexVetv] = 0;
-                            }
-                            break;
+                        }
                     }
                 }
                 indexVetv = tableVetv.FindNextSel[indexVetv];
