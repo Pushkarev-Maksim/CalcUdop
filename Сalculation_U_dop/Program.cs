@@ -12,7 +12,7 @@ namespace ConsoleApp2
             IRastr rastr = new Rastr();
             // Путь до файла.
             string patch =
-                @"C:\Users\maks_\Desktop\УЧЁБА\диплом\2024\СМЗУ\05022024_12_02_36\mdp_debug_1";
+                @"C:\Users\maks_\OneDrive\Рабочий стол\УЧЁБА ТПУ\Магистратура\диплом\2024\СМЗУ\05022024_12_02_36\mdp_debug_1";
             // Загружаем файл с режимом.
             rastr.Load(RG_KOD.RG_REPL, patch, "");
             // Обращение к таблице ветви.
@@ -100,18 +100,35 @@ namespace ConsoleApp2
             };
             
             rastr.rgm("");
+            Console.WriteLine("Напряжение по концам ЛЭП в исходном режиме");
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, "ВЛ 500 кВ Барнаульская - Рубцовская"));
             
-            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 1106));
-            
-            EnergizingPowerLine.Commutation(rastr, listLine, 1106, 0, 0);
-
+            // Одностороннее включение ЛЭП
+            EnergizingPowerLine.OneWayLineComutation(rastr, listLine, 551, 1, 1);
             rastr.rgm("");
+            Console.WriteLine("Напряжение по концам ЛЭП при одностороннем включении");
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, "ВЛ 500 кВ Барнаульская - Рубцовская"));
+            string patch1 =
+                @"C:\Users\maks_\OneDrive\Рабочий стол\УЧЁБА ТПУ\Магистратура\диплом\2024\СМЗУ\05022024_12_02_36\regim1";
+            rastr.Save(patch1, "");
 
-            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, 1106));
+            // Включение ЛЭП с двух сторон
+            EnergizingPowerLine.TwoWayLineComutation(rastr, listLine, 551, 1);
+            rastr.rgm("");
+            Console.WriteLine("Напряжение по концам ЛЭП при включении с двух сторон");
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, "ВЛ 500 кВ Барнаульская - Рубцовская"));
+            string patch2 =
+                @"C:\Users\maks_\OneDrive\Рабочий стол\УЧЁБА ТПУ\Магистратура\диплом\2024\СМЗУ\05022024_12_02_36\regim2";
+            rastr.Save(patch2, "");
 
-            string patch_ =
-                @"C:\Users\maks_\Desktop\УЧЁБА\диплом\2024\СМЗУ\05022024_12_02_36\regim";
-            rastr.Save(patch_, "");
+            // Отключение ЛЭП с двух сторон
+            EnergizingPowerLine.TwoWayLineAnComutation(rastr, listLine, 551, 0);
+            rastr.rgm("");
+            Console.WriteLine("Напряжение по концам ЛЭП при отключении с двух сторон");
+            Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, "ВЛ 500 кВ Барнаульская - Рубцовская"));
+            string patch3 =
+                @"C:\Users\maks_\OneDrive\Рабочий стол\УЧЁБА ТПУ\Магистратура\диплом\2024\СМЗУ\05022024_12_02_36\regim3";
+            rastr.Save(patch3, "");
         }
     }
 }
