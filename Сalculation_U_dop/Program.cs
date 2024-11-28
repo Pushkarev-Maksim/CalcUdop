@@ -216,7 +216,7 @@ namespace Сalculation_U_dop
                 18,
             };
 
-
+            // --------------------------------------------Коммутируемые СРН-------------------------------------------------------
 #if false
             Console.WriteLine("КП ПС 500 кВ Рубцовская");
 
@@ -234,28 +234,94 @@ namespace Сalculation_U_dop
                 Marshal.FinalReleaseComObject(rastr);
             }
 #else
-            // Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Рубцовская 
-            Console.WriteLine("КП ПС 500 кВ Рубцовская");
+            //// Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Рубцовская 
+            //Console.WriteLine("КП ПС 500 кВ Рубцовская");
 
-            foreach (int MCV in switchMCVRubtsovskaya)
-            {
-                rastr.Load(RG_KOD.RG_REPL, patch, "");
-                Console.WriteLine($"{MCV}");
-                Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
-                    rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", MCV)}");
-            }
+            //foreach (int switchMCV in switchMCVRubtsovskaya)
+            //{
+            //    rastr.Load(RG_KOD.RG_REPL, patch, "");
+            //    Console.WriteLine($"{switchMCV}");
+            //    Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
+            //        rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", switchMCV)}");
+            //}
 
-            // Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Барнаульская
-            Console.WriteLine("КП ПС 500 кВ Барнаульская");
+            //// Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Барнаульская
+            //Console.WriteLine("КП ПС 500 кВ Барнаульская");
 
-            foreach (int MCV in switchMCVBarnaulskaya)
-            {
-                rastr.Load(RG_KOD.RG_REPL, patch, "");
-                Console.WriteLine($"{MCV}");
-                Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
-                    rastr, listVoltageControlNode, "ПС 500 кВ Барнаульская", MCV)}");
-            }
+            //foreach (int switchMCV in switchMCVBarnaulskaya)
+            //{
+            //    rastr.Load(RG_KOD.RG_REPL, patch, "");
+            //    Console.WriteLine($"{switchMCV}");
+            //    Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
+            //        rastr, listVoltageControlNode, "ПС 500 кВ Барнаульская", switchMCV)}");
+            //}
 #endif
-        }
+            // --------------------------------------------Управляемые СРН-------------------------------------------------------
+            var controllMCVRubtsovskaya = new Dictionary<string, List<int>>
+            {
+                { "ПС 220 кВ Светлая, УШР-1-220 и УШР-2-220", new List<int> { 443, 444 } },
+                { "ПС 500 кВ Семей, УШР", new List<int> { 428 } },
+                { "ЕЭК, Р-5017", new List<int> { 418 } }
+            };
+
+            // Расчет эффективности управляемых СРН для КП ПС 500 кВ Рубцовская
+            Console.WriteLine("\nКП ПС 500 кВ Рубцовская");
+
+            // Перебираем словарь
+            foreach (var station in controllMCVRubtsovskaya)
+            {
+                // Передаём весь список значений в метод
+                rastr.Load(RG_KOD.RG_REPL, patch, "");
+                Console.WriteLine($"Наименование УШР: {station.Key}");
+                Console.WriteLine(EfficiencyMeansControlVoltage.CalculationEfficiencyControlledMCV(
+                        rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", station.Value)
+                );
+            }
+
+            var controllMCVBarnaulskaya = new Dictionary<string, List<int>>
+            {
+                { "ПС 220 кВ Светлая, УШР-1-220 и УШР-2-220", new List<int> { 443, 444 } },
+                { "СТК-1 ПС 500 кВ Заря", new List<int> { 461 } }
+            };
+
+            // Расчет эффективности управляемых СРН для КП ПС 500 кВ Рубцовская
+            Console.WriteLine("\nКП ПС 500 кВ Барнаульская");
+
+            // Перебираем словарь
+            foreach (var station in controllMCVBarnaulskaya)
+            {
+                // Передаём весь список значений в метод
+                rastr.Load(RG_KOD.RG_REPL, patch, "");
+                Console.WriteLine($"Наименование УШР: {station.Key}");
+                Console.WriteLine(EfficiencyMeansControlVoltage.CalculationEfficiencyControlledMCV(
+                        rastr, listVoltageControlNode, "ПС 500 кВ Барнаульская", station.Value)
+                );
+            }
+
+            // --------------------------------------------Генераторы станций-------------------------------------------------------
+
+            var generatorMCVRubtsovskaya = new Dictionary<string, List<int>>
+            {
+                { "Изменение суммарной генерации реактивной мощности ТГ-3 – ТГ-8 Бийской ТЭЦ-1", new List<int> { 31, 32, 33, 34, 35, 36 } },
+                { "Изменение суммарной генерации реактивной мощности ТГ-5 – ТГ-9 Барнаульской ТЭЦ-2, ТГ-1 – ТГ-3 Барнаульской ТЭЦ-3", new List<int> { 13, 14, 15, 16, 17, 18, 19, 120 } },
+                { "Изменение суммарной генерации реактивной мощности Шульбинской ГЭС", new List<int> { 418 } },
+                { "Изменение суммарной генерации реактивной мощности ЕЭК", new List<int> { 418 } },
+                { "Изменение суммарной генерации реактивной мощности Экибастузская ГРЭС-1", new List<int> { 418 } },
+            };
+
+            // Расчет эффективности Генераторов для КП ПС 500 кВ Рубцовская
+            Console.WriteLine("\nКП ПС 500 кВ Рубцовская");
+
+            // Перебираем словарь
+            foreach (var station in generatorMCVRubtsovskaya)
+            {
+                // Передаём весь список значений в метод
+                rastr.Load(RG_KOD.RG_REPL, patch, "");
+                Console.WriteLine($"Наименование УШР: {station.Key}");
+                Console.WriteLine(EfficiencyMeansControlVoltage.CalculationEfficiencyControlledMCV(
+                        rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", station.Value)
+                );
+            }
+        }      
     }
 }
