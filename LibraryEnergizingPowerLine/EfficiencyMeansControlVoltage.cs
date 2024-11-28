@@ -131,6 +131,14 @@ namespace LibraryEnergizingPowerLine
             ICol vrasNode = (ICol)tableNode.Cols.Item("vras");
             // Обращение к колонке Заданный модуль напряжения в узле.
             ICol vzdNode = (ICol)tableNode.Cols.Item("vzd");
+            // Обращение к колонке Мощность генерации P в узле.
+            ICol PNode = (ICol)tableNode.Cols.Item("pg");
+            // Обращение к колонке Мощность генерации Q в узле.
+            ICol QNode = (ICol)tableNode.Cols.Item("qg");
+            // Обращение к колонке Мощность генерации Qmin в узле.
+            ICol QminNode = (ICol)tableNode.Cols.Item("qmin");
+            // Обращение к колонке Мощность генерации Qmax в узле.
+            ICol QmaxNode = (ICol)tableNode.Cols.Item("qmax");
 
             // Перебор строк в листе listVoltageControlNode и определение
             // эффективности СРН в КП.
@@ -150,31 +158,50 @@ namespace LibraryEnergizingPowerLine
 
             foreach (var genNumber in controllMCV)
             {
-                string parametersGen = GetParametersGenerator(rastr, genNumber);
-
                 var setSelParametersGenerator = "Num=" + genNumber;
                 tableGenerator.SetSel(setSelParametersGenerator);
-                var nodeNumberGenerator = tableGenerator.FindNextSel[-1];
-                int nodeGen = (int)nodeGenerator.Z[nodeNumberGenerator];
 
-                var setSelNodeGenerator = "ny=" + nodeGen;
-                tableNode.SetSel(setSelNodeGenerator);
-                var generatorNode = tableNode.FindNextSel[-1];
-                double vzd = (double)vzdNode.Z[generatorNode];
-                double Vzad = 0;
-                vzdNode.set_ZN(generatorNode, Vzad);
-                double vzd1 = (double)vzdNode.Z[generatorNode];
+                if (tableGenerator.Count == 0)
+                {
+                    var setSelNodeGenerator = "ny=" + genNumber;
+                    tableNode.SetSel(setSelNodeGenerator);
+                    var generatorNode = tableNode.FindNextSel[-1];
+                    double vzd = (double)vzdNode.Z[generatorNode];
+                    double Vzad = 0;
+                    vzdNode.set_ZN(generatorNode, Vzad);
+                    double vzd1 = (double)vzdNode.Z[generatorNode];
 
-                double Qnach = (double)QGenerator.Z[nodeNumberGenerator];
-                double Qmin = (double)QminGenerator.Z[nodeNumberGenerator];
-                QGenerator.set_ZN(nodeNumberGenerator, Qmin);
-                double Q = (double)QGenerator.Z[nodeNumberGenerator];
+                    double Qnach = (double)QNode.Z[generatorNode];
+                    double Qmin = (double)QminNode.Z[generatorNode];
+                    QNode.set_ZN(generatorNode, Qmin);
+                    double Q = (double)QNode.Z[generatorNode];
 
-                double deltaQ = Math.Round(Math.Abs(Qnach - Q), 3);
+                    double deltaQ = Math.Round(Math.Abs(Qnach - Q), 3);
 
-                totalDeltaQ += deltaQ;
+                    totalDeltaQ += deltaQ;
+                }
+                else
+                {
+                    var nodeNumberGenerator = tableGenerator.FindNextSel[-1];
+                    int nodeGen = (int)nodeGenerator.Z[nodeNumberGenerator];
 
-                string parametersGen1 = GetParametersGenerator(rastr, genNumber);
+                    var setSelNodeGenerator = "ny=" + nodeGen;
+                    tableNode.SetSel(setSelNodeGenerator);
+                    var generatorNode = tableNode.FindNextSel[-1];
+                    double vzd = (double)vzdNode.Z[generatorNode];
+                    double Vzad = 0;
+                    vzdNode.set_ZN(generatorNode, Vzad);
+                    double vzd1 = (double)vzdNode.Z[generatorNode];
+
+                    double Qnach = (double)QGenerator.Z[nodeNumberGenerator];
+                    double Qmin = (double)QminGenerator.Z[nodeNumberGenerator];
+                    QGenerator.set_ZN(nodeNumberGenerator, Qmin);
+                    double Q = (double)QGenerator.Z[nodeNumberGenerator];
+
+                    double deltaQ = Math.Round(Math.Abs(Qnach - Q), 3);
+
+                    totalDeltaQ += deltaQ;
+                }
             }
 
             rastr.rgm("");

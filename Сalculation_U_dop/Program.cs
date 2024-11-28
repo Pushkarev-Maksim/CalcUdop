@@ -216,7 +216,7 @@ namespace Сalculation_U_dop
                 18,
             };
 
-            // --------------------------------------------Коммутируемые СРН-------------------------------------------------------
+            Console.WriteLine("--------------------------------------------Коммутируемые СРН-------------------------------------------------------");
 #if false
             Console.WriteLine("КП ПС 500 кВ Рубцовская");
 
@@ -234,29 +234,29 @@ namespace Сalculation_U_dop
                 Marshal.FinalReleaseComObject(rastr);
             }
 #else
-            //// Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Рубцовская 
-            //Console.WriteLine("КП ПС 500 кВ Рубцовская");
+            // Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Рубцовская 
+            Console.WriteLine("КП ПС 500 кВ Рубцовская");
 
-            //foreach (int switchMCV in switchMCVRubtsovskaya)
-            //{
-            //    rastr.Load(RG_KOD.RG_REPL, patch, "");
-            //    Console.WriteLine($"{switchMCV}");
-            //    Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
-            //        rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", switchMCV)}");
-            //}
+            foreach (int switchMCV in switchMCVRubtsovskaya)
+            {
+                rastr.Load(RG_KOD.RG_REPL, patch, "");
+                Console.WriteLine($"{switchMCV}");
+                Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
+                    rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", switchMCV)}");
+            }
 
-            //// Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Барнаульская
-            //Console.WriteLine("КП ПС 500 кВ Барнаульская");
+            // Расчет эффективности коммутируемых СРН для КП ПС 500 кВ Барнаульская
+            Console.WriteLine("КП ПС 500 кВ Барнаульская");
 
-            //foreach (int switchMCV in switchMCVBarnaulskaya)
-            //{
-            //    rastr.Load(RG_KOD.RG_REPL, patch, "");
-            //    Console.WriteLine($"{switchMCV}");
-            //    Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
-            //        rastr, listVoltageControlNode, "ПС 500 кВ Барнаульская", switchMCV)}");
-            //}
+            foreach (int switchMCV in switchMCVBarnaulskaya)
+            {
+                rastr.Load(RG_KOD.RG_REPL, patch, "");
+                Console.WriteLine($"{switchMCV}");
+                Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
+                    rastr, listVoltageControlNode, "ПС 500 кВ Барнаульская", switchMCV)}");
+            }
 #endif
-            // --------------------------------------------Управляемые СРН-------------------------------------------------------
+            Console.WriteLine("--------------------------------------------Управляемые СРН-------------------------------------------------------");
             var controllMCVRubtsovskaya = new Dictionary<string, List<int>>
             {
                 { "ПС 220 кВ Светлая, УШР-1-220 и УШР-2-220", new List<int> { 443, 444 } },
@@ -298,15 +298,15 @@ namespace Сalculation_U_dop
                 );
             }
 
-            // --------------------------------------------Генераторы станций-------------------------------------------------------
+            Console.WriteLine("--------------------------------------------Генераторы станций-------------------------------------------------------");
 
             var generatorMCVRubtsovskaya = new Dictionary<string, List<int>>
             {
                 { "Изменение суммарной генерации реактивной мощности ТГ-3 – ТГ-8 Бийской ТЭЦ-1", new List<int> { 31, 32, 33, 34, 35, 36 } },
                 { "Изменение суммарной генерации реактивной мощности ТГ-5 – ТГ-9 Барнаульской ТЭЦ-2, ТГ-1 – ТГ-3 Барнаульской ТЭЦ-3", new List<int> { 13, 14, 15, 16, 17, 18, 19, 120 } },
-                { "Изменение суммарной генерации реактивной мощности Шульбинской ГЭС", new List<int> { 418 } },
-                { "Изменение суммарной генерации реактивной мощности ЕЭК", new List<int> { 418 } },
-                { "Изменение суммарной генерации реактивной мощности Экибастузская ГРЭС-1", new List<int> { 418 } },
+                { "Изменение суммарной генерации реактивной мощности Шульбинской ГЭС", new List<int> { 1220 } },
+                { "Изменение суммарной генерации реактивной мощности ЕЭК", new List<int> { 80, 81, 82, 83, 84, 85, 86, 87 } },
+                { "Изменение суммарной генерации реактивной мощности Экибастузская ГРЭС-1", new List<int> { 390, 391, 392, 393, 394, 395, 396, 397 } },
             };
 
             // Расчет эффективности Генераторов для КП ПС 500 кВ Рубцовская
@@ -317,7 +317,7 @@ namespace Сalculation_U_dop
             {
                 // Передаём весь список значений в метод
                 rastr.Load(RG_KOD.RG_REPL, patch, "");
-                Console.WriteLine($"Наименование УШР: {station.Key}");
+                Console.WriteLine($"Наименование СРН: {station.Key}");
                 Console.WriteLine(EfficiencyMeansControlVoltage.CalculationEfficiencyControlledMCV(
                         rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", station.Value)
                 );
