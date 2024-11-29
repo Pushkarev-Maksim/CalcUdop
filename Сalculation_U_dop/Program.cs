@@ -14,7 +14,7 @@ namespace Сalculation_U_dop
             IRastr rastr = new Rastr();
             // Путь до файла.
             string patch =
-                @"C:\Users\maks_\OneDrive\Рабочий стол\УЧЁБА ТПУ\Магистратура\диплом\2024\СМЗУ\05022024_12_02_36\mdp_debug_1";
+                @"C:\TargetFolder\mdp_debug_1 27.06.2024 04.15";
             // Загружаем файл с режимом.
             rastr.Load(RG_KOD.RG_REPL, patch, "");
             // Обращение к таблице ветви.
@@ -240,6 +240,7 @@ namespace Сalculation_U_dop
             foreach (int switchMCV in switchMCVRubtsovskaya)
             {
                 rastr.Load(RG_KOD.RG_REPL, patch, "");
+                rastr.rgm("");
                 Console.WriteLine($"{switchMCV}");
                 Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
                     rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", switchMCV)}");
@@ -251,6 +252,7 @@ namespace Сalculation_U_dop
             foreach (int switchMCV in switchMCVBarnaulskaya)
             {
                 rastr.Load(RG_KOD.RG_REPL, patch, "");
+                rastr.rgm("");
                 Console.WriteLine($"{switchMCV}");
                 Console.WriteLine($"{EfficiencyMeansControlVoltage.CalculationEfficiencySwitchedMCV(
                     rastr, listVoltageControlNode, "ПС 500 кВ Барнаульская", switchMCV)}");
@@ -272,6 +274,7 @@ namespace Сalculation_U_dop
             {
                 // Передаём весь список значений в метод
                 rastr.Load(RG_KOD.RG_REPL, patch, "");
+                rastr.rgm("");
                 Console.WriteLine($"Наименование УШР: {station.Key}");
                 Console.WriteLine(EfficiencyMeansControlVoltage.CalculationEfficiencyControlledMCV(
                         rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", station.Value)
@@ -292,6 +295,7 @@ namespace Сalculation_U_dop
             {
                 // Передаём весь список значений в метод
                 rastr.Load(RG_KOD.RG_REPL, patch, "");
+                rastr.rgm("");
                 Console.WriteLine($"Наименование УШР: {station.Key}");
                 Console.WriteLine(EfficiencyMeansControlVoltage.CalculationEfficiencyControlledMCV(
                         rastr, listVoltageControlNode, "ПС 500 кВ Барнаульская", station.Value)
@@ -317,6 +321,7 @@ namespace Сalculation_U_dop
             {
                 // Передаём весь список значений в метод
                 rastr.Load(RG_KOD.RG_REPL, patch, "");
+                rastr.rgm("");
                 Console.WriteLine($"Наименование СРН: {station.Key}");
                 Console.WriteLine(EfficiencyMeansControlVoltage.CalculationEfficiencyControlledMCV(
                         rastr, listVoltageControlNode, "ПС 500 кВ Рубцовская", station.Value)
