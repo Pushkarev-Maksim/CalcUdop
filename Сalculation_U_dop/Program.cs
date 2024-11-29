@@ -76,35 +76,10 @@ namespace Сalculation_U_dop
                 // new Line("ВЛ 500 кВ Саяно-Шушенская ГЭС - Новокузнецкая №1", )
             };
 
-            // Лист КП по напряжению со значениями границ графика напряжения.
-            var listVoltageControlNode = new List<VoltageLowerLimit>()
-            {
-                new VoltageLowerLimit(563, "ПС 500 кВ Барнаульская", 505, 525),
-                new VoltageLowerLimit(6267, "ПС 500 кВ Рубцовская", 495, 525),
-                new VoltageLowerLimit(6272, "ПС 500 кВ Барабинская", 510, 525),
-                new VoltageLowerLimit(6230, "ПС 500 кВ Юрга", 500, 525),
-                new VoltageLowerLimit(6233, "ПС 500 кВ Новокузнецкая", 500, 525),
-                new VoltageLowerLimit(210, "ПС 500 кВ Ново-Анжерская", 505, 525),
-                new VoltageLowerLimit(294, "ПС 500 кВ Беловская ГРЭС", 500, 525),
-                new VoltageLowerLimit(6140, "ПС 500 кВ Абаканская", 500, 525),
-                new VoltageLowerLimit(6283, "ПС 500 кВ Саяно-Шушенская ГЭС", 520, 525),
-                new VoltageLowerLimit(6117, "ПС 1150 кВ Итатская", 505, 525),
-                new VoltageLowerLimit(40, "Назаровская ГРЭС", 510, 525),
-                new VoltageLowerLimit(23, "ПС 500 кВ Красноярская", 500, 525),
-                new VoltageLowerLimit(8000, "ПС 500 кВ Ангара", 510, 525),
-                new VoltageLowerLimit(6148, "ПС 500 кВ Камала-1", 510, 525),
-                new VoltageLowerLimit(6366, "Богучанская ГЭС", 520, 525),
-                new VoltageLowerLimit(6220, "ПС 500 кВ Тайшет", 515, 525),
-                new VoltageLowerLimit(2841, "ПС 500 кВ Братский ПП", 495, 525),
-                new VoltageLowerLimit(805, "Братская ГЭС", 495, 525),
-                new VoltageLowerLimit(6000, "Усть – Илимская ГЭС", 500, 525),
-                new VoltageLowerLimit(133, "ПС 500 кВ Иркутская", 494, 525)
-            };
-            
             //rastr.rgm("");
             //Console.WriteLine("Напряжение по концам ЛЭП в исходном режиме");
             //Console.WriteLine(EnergizingPowerLine.GetVoltageNode(rastr, listLine, "ВЛ 500 кВ Барнаульская - Рубцовская"));
-            
+
             //// Одностороннее включение ЛЭП
             //EnergizingPowerLine.OneWayLineComutation(rastr, listLine, 551, 1, 1);
             //rastr.rgm("");
@@ -131,6 +106,31 @@ namespace Сalculation_U_dop
             //string patch3 =
             //    @"C:\Users\maks_\OneDrive\Рабочий стол\УЧЁБА ТПУ\Магистратура\диплом\2024\СМЗУ\05022024_12_02_36\regim3";
             //rastr.Save(patch3, "");
+
+            // Лист КП по напряжению со значениями границ графика напряжения.
+            var listVoltageControlNode = new List<VoltageLowerLimit>()
+            {
+                new VoltageLowerLimit(563, "ПС 500 кВ Барнаульская", 505, 525),
+                new VoltageLowerLimit(6267, "ПС 500 кВ Рубцовская", 495, 525),
+                new VoltageLowerLimit(6272, "ПС 500 кВ Барабинская", 510, 525),
+                new VoltageLowerLimit(6230, "ПС 500 кВ Юрга", 500, 525),
+                new VoltageLowerLimit(6233, "ПС 500 кВ Новокузнецкая", 500, 525),
+                new VoltageLowerLimit(210, "ПС 500 кВ Ново-Анжерская", 505, 525),
+                new VoltageLowerLimit(294, "ПС 500 кВ Беловская ГРЭС", 500, 525),
+                new VoltageLowerLimit(6140, "ПС 500 кВ Абаканская", 500, 525),
+                new VoltageLowerLimit(6283, "ПС 500 кВ Саяно-Шушенская ГЭС", 520, 525),
+                new VoltageLowerLimit(6117, "ПС 1150 кВ Итатская", 505, 525),
+                new VoltageLowerLimit(40, "Назаровская ГРЭС", 510, 525),
+                new VoltageLowerLimit(23, "ПС 500 кВ Красноярская", 500, 525),
+                new VoltageLowerLimit(8000, "ПС 500 кВ Ангара", 510, 525),
+                new VoltageLowerLimit(6148, "ПС 500 кВ Камала-1", 510, 525),
+                new VoltageLowerLimit(6366, "Богучанская ГЭС", 520, 525),
+                new VoltageLowerLimit(6220, "ПС 500 кВ Тайшет", 515, 525),
+                new VoltageLowerLimit(2841, "ПС 500 кВ Братский ПП", 495, 525),
+                new VoltageLowerLimit(805, "Братская ГЭС", 495, 525),
+                new VoltageLowerLimit(6000, "Усть – Илимская ГЭС", 500, 525),
+                new VoltageLowerLimit(133, "ПС 500 кВ Иркутская", 494, 525)
+            };
 
             List<int> switchMCVRubtsovskaya = new List<int>()
             {
