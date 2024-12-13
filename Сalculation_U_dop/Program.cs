@@ -14,7 +14,7 @@ namespace Сalculation_U_dop
             IRastr rastr = new Rastr();
             // Путь до файла.
             string patch =
-                @"C:\TargetFolder\mdp_debug_1 27.06.2024 04.15";
+                @"C:\Users\maks_\OneDrive\Рабочий стол\УЧЁБА ТПУ\Магистратура\диплом\2024\СМЗУ\05022024_12_02_36\mdp_debug_1";
             // Загружаем файл с режимом.
             rastr.Load(RG_KOD.RG_REPL, patch, "");
             // Обращение к таблице ветви.
@@ -218,6 +218,7 @@ namespace Сalculation_U_dop
 
             Console.WriteLine("--------------------------------------------Коммутируемые СРН-------------------------------------------------------");
 #if false
+
             Console.WriteLine("КП ПС 500 кВ Рубцовская");
 
             Parallel.ForEach<int>(
@@ -259,6 +260,7 @@ namespace Сalculation_U_dop
             }
 #endif
             Console.WriteLine("--------------------------------------------Управляемые СРН-------------------------------------------------------");
+            
             var controllMCVRubtsovskaya = new Dictionary<string, List<int>>
             {
                 { "ПС 220 кВ Светлая, УШР-1-220 и УШР-2-220", new List<int> { 443, 444 } },
